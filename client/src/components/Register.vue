@@ -6,13 +6,7 @@
         <h1>Register</h1>
 
         <div class="form-group">
-          <input
-            type="email"
-            name="email"
-            v-model="email"
-            placeholder="Email"
-            class="form-control"
-          />
+          <input type="email" name="email" v-model="email" placeholder="Email" class="form-control" />
         </div>
         <div class="form-group">
           <input
@@ -22,35 +16,44 @@
             placeholder="Password"
             class="form-control"
           />
+          <div class="error" v-html="error">
+          </div>
         </div>
-         <div class="form-group">
-          <button class="btn btn-lg btn-block btn-outline-success"
-          @click="register"
-          >Register</button>
+        <div class="form-group">
+          <button class="btn btn-lg btn-block btn-outline-success" @click="register">Register</button>
         </div>
       </div>
     </div>
   </div>
 </template>
 <script>
-import AuthenticationService from '@/services/AuthenticationService'
+import AuthenticationService from "@/services/AuthenticationService";
 export default {
   name: "Register",
   data() {
     return {
-     email: '',
-     password: ''
-    };
-  }, 
+      email: "",
+      password: "",
+      error: null
+    }
+  },
   methods: {
     async register() {
-      const response = await AuthenticationService.register({
+      try {
+        await AuthenticationService.register({
         email: this.email,
         password: this.password
       })
-      console.log(response.data)
+      } catch (error) {
+        this.error = error.response.data.error
+      }
+    
     }
   }
 }
 </script>
-<style scoped></style>
+<style scoped>
+  .error {
+    color: red;
+  }
+</style>
