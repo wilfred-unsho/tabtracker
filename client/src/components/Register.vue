@@ -1,30 +1,58 @@
 
 <template>
-  <div class="container">
-    <div class="row">
-      <div class="col-md-4 offset-4">
-        <h1>Register</h1>
+ <v-app id="inspire">
+    <v-content>
+      <v-container
+        fluid
+        fill-height
+      >
+        <v-layout
+          align-center
+          justify-center
+        >
+          <v-flex
+            xs12
+            sm8
+            md4
+          >
+            <v-card class="elevation-12">
+              <v-toolbar
+                color="primary"
+                dark
+                flat
+              >
+                <v-toolbar-title>Registration form</v-toolbar-title>
+                <v-spacer></v-spacer>
+                
+              </v-toolbar>
+              <v-card-text>
+                <v-form>
+                  <v-text-field
+                    label="Login"
+                    name="login"
+                    prepend-icon="person"
+                    type="text"
+                  ></v-text-field>
 
-        <div class="form-group">
-          <input type="email" name="email" v-model="email" placeholder="Email" class="form-control" />
-        </div>
-        <div class="form-group">
-          <input
-            type="password"
-            name="password"
-            v-model="password"
-            placeholder="Password"
-            class="form-control"
-          />
-          <div class="error" v-html="error">
-          </div>
-        </div>
-        <div class="form-group">
-          <button class="btn btn-lg btn-block btn-outline-success" @click="register">Register</button>
-        </div>
-      </div>
-    </div>
-  </div>
+                  <v-text-field
+                    id="password"
+                    label="Password"
+                    name="password"
+                    prepend-icon="lock"
+                    type="password"
+                  ></v-text-field>
+                </v-form>
+              </v-card-text>
+              <v-card-actions>
+                <v-spacer></v-spacer>
+                <v-btn color="primary">Sign Up</v-btn>
+              </v-card-actions>
+            </v-card>
+          </v-flex>
+        </v-layout>
+      </v-container>
+    </v-content>
+  </v-app>
 </template>
 <script>
 import AuthenticationService from "@/services/AuthenticationService";
@@ -35,25 +63,21 @@ export default {
       email: "",
       password: "",
       error: null
-    }
+    };
   },
   methods: {
     async register() {
       try {
         await AuthenticationService.register({
-        email: this.email,
-        password: this.password
-      })
+          email: this.email,
+          password: this.password
+        });
       } catch (error) {
-        this.error = error.response.data.error
+        this.error = error.response.data.error;
       }
-    
     }
   }
-}
+};
 </script>
 <style scoped>
-  .error {
-    color: red;
-  }
 </style>
